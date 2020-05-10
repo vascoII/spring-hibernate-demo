@@ -15,6 +15,8 @@ public class TestJdbc {
 			Connection myCon = 
 					DriverManager.getConnection(jdbcUrl, user, pwd);
 			System.out.println("Commection successfull");
+			myCon.close();
+			System.out.println("Commection closed");
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
