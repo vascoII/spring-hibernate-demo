@@ -23,48 +23,39 @@ public class QueryStudent {
 			//start Transaction
 			System.out.println("BeginTransaction");
 			session.beginTransaction();
+			
 			//List
 			List<Student> allStudents = session
 					.createQuery("from Student")
 					.getResultList();
 			System.out.println("allStudents: ");
-			for (Student tempStudent : allStudents) {
-				System.out.println(tempStudent);
-			}
-			//commit transaction
-			session.getTransaction().commit();
+			displayStudents(allStudents);
 			
-			//get new session and start transaction
-			session = factory.getCurrentSession();
-			session.beginTransaction();
 			//List with where
 			List<Student> whereStudents = session
 					.createQuery("from Student s where s.lastName LIKE '%o%'")
 					.getResultList();
 			System.out.println("whereStudents: ");
-			for (Student tempStudent : whereStudents) {
-				System.out.println(tempStudent);
-			}
-			//commit transaction
-			session.getTransaction().commit();
-			 
-			//get new session and start transaction
-			session = factory.getCurrentSession();
-			session.beginTransaction();
+			displayStudents(whereStudents);
+
 			//List with where, or
 			List<Student> whereOrStudents = session
 					.createQuery("from Student s where s.lastName LIKE '%o%'"
 							+ "OR s.firstName LIKE '%o%'")
 					.getResultList();
 			System.out.println("whereOrStudents: ");
-			for (Student tempStudent : whereOrStudents) {
-				System.out.println(tempStudent);
-			}
+			displayStudents(whereOrStudents);
+			
 			//commit transaction
 			session.getTransaction().commit();
-			
 		} finally {
 			factory.close();
+		}
+	}
+
+	private static void displayStudents(List<Student> students) {
+		for (Student tempStudent : students) {
+			System.out.println(tempStudent);
 		}
 	}
 
